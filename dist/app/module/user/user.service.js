@@ -47,6 +47,14 @@ const bcrypt = __importStar(require("bcrypt"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const existingUser = yield prisma.user.findUnique({
+        where: {
+            email: req.body.email
+        }
+    });
+    if (existingUser) {
+        throw new Error('Email is already in use');
+    }
     const hashedPassword = yield bcrypt.hash(req.body.password, 6);
     const userData = {
         email: req.body.email,
