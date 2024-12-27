@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 const server = createServer(app);
 const io = new SocketIOServer(server,{
     cors: {
-      origin: ["http://localhost:3000","https://the-messenger-production.up.railway.app"] ,  
+      origin: ["http://localhost:3000","https://the-messenger-client.onrender.com"] ,  
       methods: ["GET", "POST"],
       credentials: true,  
     },
