@@ -129,9 +129,40 @@ const viewAllGroups = () => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error('Failed to retrieve groups');
     }
 });
+const deleteGroup = (groupId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!groupId) {
+            throw new AppError_1.default(404, "Group id not found");
+        }
+        yield prisma.message.deleteMany({
+            where: {
+                groupId: groupId
+            }
+        });
+        yield prisma.userGroup.deleteMany({
+            where: {
+                groupId: groupId
+            }
+        });
+        const deletedGroup = yield prisma.group.delete({
+            where: {
+                id: groupId
+            }
+        });
+        if (!deletedGroup) {
+            throw new Error('Group not found or could not be deleted');
+        }
+        return deletedGroup;
+    }
+    catch (er) {
+        console.error('Error deleting group:', er);
+        throw new Error('Failed to delete group');
+    }
+});
 exports.groupService = {
     createGroup,
     joinGroup,
     viewGroup,
-    viewAllGroups
+    viewAllGroups,
+    deleteGroup
 };

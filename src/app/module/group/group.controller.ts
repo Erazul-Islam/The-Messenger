@@ -24,14 +24,27 @@ const groupCreation = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const groupDeleted = catchAsync(async (req: Request, res: Response) => {
+
+    const { groupId } = req.params
+    const result = await groupService.deleteGroup(groupId)
+
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: 'Group deleted Successfully',
+        data: result
+    })
+})
 
 const joinGroup = catchAsync(async (req: Request, res: Response) => {
 
     const token = req.headers.authorization?.split(" ")[1]
 
-    const { userId,groupId } = req.params
+    const { userId, groupId } = req.params
 
-    const result = await groupService.joinGroup(userId,groupId,token as string)
+    const result = await groupService.joinGroup(userId, groupId, token as string)
 
     io.to(groupId).emit('user_joined', { userId, groupId })
 
@@ -72,5 +85,6 @@ export const groupController = {
     groupCreation,
     joinGroup,
     viewGroup,
-    viewAllGroup
+    viewAllGroup,
+    groupDeleted
 }

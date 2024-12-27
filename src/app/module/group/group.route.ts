@@ -23,5 +23,9 @@ router.get(
     '/see-group',
     groupController.viewAllGroup
 );
+router.delete(
+    '/:groupId',
+    groupController.groupDeleted
+);
 
 export const groupRoute = router

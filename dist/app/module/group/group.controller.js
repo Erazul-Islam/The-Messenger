@@ -31,6 +31,16 @@ const groupCreation = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result
     });
 }));
+const groupDeleted = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { groupId } = req.params;
+    const result = yield group_sevice_1.groupService.deleteGroup(groupId);
+    (0, SendResponse_1.default)(res, {
+        statusCode: 201,
+        success: true,
+        message: 'Group deleted Successfully',
+        data: result
+    });
+}));
 const joinGroup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
@@ -67,5 +77,6 @@ exports.groupController = {
     groupCreation,
     joinGroup,
     viewGroup,
-    viewAllGroup
+    viewAllGroup,
+    groupDeleted
 };

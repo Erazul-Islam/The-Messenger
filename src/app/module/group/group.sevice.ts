@@ -145,10 +145,49 @@ const viewAllGroups = async () => {
     }
 };
 
+const deleteGroup = async (groupId: string) => {
+    try {
+
+        if(!groupId){
+            throw new AppError(404,"Group id not found")
+        }
+    
+        await prisma.message.deleteMany({
+            where: {
+                groupId: groupId
+            }
+        });
+
+        await prisma.userGroup.deleteMany({
+            where: {
+                groupId: groupId
+            }
+        });
+
+
+        const deletedGroup = await prisma.group.delete({
+            where: {
+                id: groupId
+            }
+        });
+
+        if (!deletedGroup) {
+            throw new Error('Group not found or could not be deleted');
+        }
+
+        return deletedGroup;
+    } catch (er) {
+        console.error('Error deleting group:', er);
+        throw new Error('Failed to delete group');
+    }
+};
+
+
 
 export const groupService = {
     createGroup,
     joinGroup,
     viewGroup,
-    viewAllGroups
+    viewAllGroups,
+    deleteGroup
 }

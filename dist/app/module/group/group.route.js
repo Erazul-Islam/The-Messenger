@@ -13,4 +13,5 @@ router.post('/create-group/:createdBy', (0, validateRequest_1.default)(group_val
 router.post('/join-group/:userId/:groupId', group_controller_1.groupController.joinGroup);
 router.get('/see-group/:groupId', group_controller_1.groupController.viewGroup);
 router.get('/see-group', group_controller_1.groupController.viewAllGroup);
+router.delete('/:groupId', group_controller_1.groupController.groupDeleted);
 exports.groupRoute = router;
